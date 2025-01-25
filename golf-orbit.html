@@ -99,8 +99,8 @@
 </head>
 <body>
     <div class="container">
-        <h1>Reklam Sida</h1>
-        <p>Klicka på tre annonser och vänta tills sidorna har laddats klart, därefter kan du stänga annonserna.</p>
+        <h1>Reklam sida</h1>
+        <p>Klicka på de tre knapparna för att öppna annonserna, sedan stängs annonserna automatiskt.</p>
 
         <button class="button" data-url="https://shorturl.at/6xjnN">REKLAM</button>
         <button class="button" data-url="https://shorturl.at/6xjnN">REKLAM</button>
@@ -112,31 +112,39 @@
     </div>
 
     <script>
-        let progress = 0;
-        const buttons = document.querySelectorAll('.button');
-        const progressText = document.querySelector('.progress');
-        const unlockButton = document.querySelector('.unlock');
+    let progress = 0;
+    const buttons = document.querySelectorAll('.button');
+    const progressText = document.querySelector('.progress');
+    const unlockButton = document.querySelector('.unlock');
 
-        buttons.forEach(button => {
-            button.addEventListener('click', () => {
-                const url = button.getAttribute('data-url');
-                window.open(url, '_blank');
-                button.disabled = true;
-                progress++;
-                progressText.textContent = `Unlock Progress (${progress}/3)`;
-                if (progress === 3) {
-                    unlockButton.disabled = false;
-                    unlockButton.style.backgroundColor = '#2ecc71';
-                    unlockButton.textContent = 'CONTENT UNLOCKED!';
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            const url = button.getAttribute('data-url');
+            const newTab = window.open(url, '_blank');
+
+            setTimeout(() => {
+                if (newTab && !newTab.closed) {
+                    newTab.close();
                 }
-            });
-        });
+            }, 1400);
 
-        unlockButton.addEventListener('click', () => {
+            button.disabled = true;
+            progress++;
+            progressText.textContent = `Unlock Progress (${progress}/3)`;
+
             if (progress === 3) {
-                window.location.href = 'https://cutt.ly/de3x2Jq7';
+                unlockButton.disabled = false;
+                unlockButton.style.backgroundColor = '#2ecc71';
+                unlockButton.textContent = 'CONTENT UNLOCKED!';
             }
         });
+    });
+
+    unlockButton.addEventListener('click', () => {
+        if (progress === 3) {
+            window.location.href = 'https://cutt.ly/de3x2Jq7';
+        }
+    });
     </script>
 </body>
 </html>
